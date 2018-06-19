@@ -9,6 +9,9 @@ addons:
         packages:
             - asciidoc
             - libxslt1-dev
+            - xsltproc
+            - docbook-xml
+            - docbook-xsl
             - gperf
             - elfutils
             - zlib1g-dev
@@ -33,7 +36,6 @@ matrix:
           compiler: gcc
           sudo: required
           dist: trusty
-          env: FEATURES="--enable-memcached"
 #        - os: linux
 #          compiler: i586-mingw32msvc-gcc
 #          env: HOST="--host=i586-mingw32msvc" TEST="test/main.exe"
@@ -52,11 +54,9 @@ matrix:
         - os: osx
           osx_image: xcode8.2
           compiler: clang
-          env: FEATURES="--enable-memcached --with-bundled-zlib"
         - os: osx
           osx_image: xcode9
           compiler: clang
-          env: FEATURES="--enable-memcached --with-bundled-zlib"
 
     exclude:
         - os: osx
@@ -71,10 +71,10 @@ before_install:
 
 script:
     - ./autogen.sh
-    - ./configure --prefix $(pwd)/build $HOST $FEATURES
+    - ./configure --prefix $(pwd)/build $HOST $FEATURES --enable-memcached --with-bundled-zlib
     - make
     - make ${TEST:-test}
-    - make install
+    - sudo make install
     - tar cvfz ccache-$($(pwd)/build/bin/ccache -V | grep "ccache version" | awk '{ print $3 }').tgz --directory $(pwd)/build/ .
 
 
