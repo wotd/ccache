@@ -72,6 +72,19 @@ script:
     - ./configure --prefix $(pwd)/build $HOST $FEATURES
     - make
     - make ${TEST:-test}
-env:
-  global:
-    secure: G4rIpoLDYsjZhHOptB8pIVvkIinEUAxQpb2EFAwVQHk2tlfVCy0gdDIOdtK22cVAZ/Qj3p8BNeoIOQSHVlkHB9XOH1EGjZK7H/WvOnkjgDigOeoj9vHzg9KvBk8CQB2QSyIkdPy5xg6KfuvgMZW9n/5G/k5Gphl5N5QlDFBTxK6yk9ufBh1RS+wf0czdagUqkAyuMtrBfKx15mKuSFp/TAm+Q9OsCB4gvjHNQnTWCIt87OmtHFKzWpNek4F+UA6zjKd2Veq7yp8KTuAT8qAfOkEMgZjW90Mq/MWgHZ/ZQrez5G40M7sTZz1nNrkeFB40LypQ9wgIUjqrxDQDg2Ns9nDSVhUM4SsNb1uWDWjxiNn6uG/gwXEHt7IttKnzp/pFSON+oXdPdLv3MwPI6z/LWN3v8ncDmVaHysMNKwUGiH7RGefrzd+FhOL3xTxWFnOgZKpBPdMWldHUNPQerh0Fqr/6a5RF8ffhIU3cR672manTlOCW/SLaU+2MvVkB5QxOTlvHCe5v6GUMivTlywDojZW6GelyS+kdZLhL7rsh8kAqxr+3r13Y8rFpsbkz7+VnDaqOSwUkMlMGGrAlbgr8ipFOv74pj8SjpA3d+rlHU5xnA2zU1Eb2uuaGMtSzIdpVlG6akQoRpoqLPM5P4doyOXfm9it3HuKZJabOlulJVOo=
+    - make install
+    - tar cvfz ccache-$($(pwd)/build/bin/ccache -V | grep "ccache version" | awk '{ print $3 }').tgz --directory $(pwd)/build/ .
+
+
+before_deploy:
+  - export FILE_TO_UPLOAD=$(ls $(pwd)/ccache*.tgz)
+
+deploy:
+  provider: releases
+  api_key:
+    - secure: G4rIpoLDYsjZhHOptB8pIVvkIinEUAxQpb2EFAwVQHk2tlfVCy0gdDIOdtK22cVAZ/Qj3p8BNeoIOQSHVlkHB9XOH1EGjZK7H/WvOnkjgDigOeoj9vHzg9KvBk8CQB2QSyIkdPy5xg6KfuvgMZW9n/5G/k5Gphl5N5QlDFBTxK6yk9ufBh1RS+wf0czdagUqkAyuMtrBfKx15mKuSFp/TAm+Q9OsCB4gvjHNQnTWCIt87OmtHFKzWpNek4F+UA6zjKd2Veq7yp8KTuAT8qAfOkEMgZjW90Mq/MWgHZ/ZQrez5G40M7sTZz1nNrkeFB40LypQ9wgIUjqrxDQDg2Ns9nDSVhUM4SsNb1uWDWjxiNn6uG/gwXEHt7IttKnzp/pFSON+oXdPdLv3MwPI6z/LWN3v8ncDmVaHysMNKwUGiH7RGefrzd+FhOL3xTxWFnOgZKpBPdMWldHUNPQerh0Fqr/6a5RF8ffhIU3cR672manTlOCW/SLaU+2MvVkB5QxOTlvHCe5v6GUMivTlywDojZW6GelyS+kdZLhL7rsh8kAqxr+3r13Y8rFpsbkz7+VnDaqOSwUkMlMGGrAlbgr8ipFOv74pj8SjpA3d+rlHU5xnA2zU1Eb2uuaGMtSzIdpVlG6akQoRpoqLPM5P4doyOXfm9it3HuKZJabOlulJVOo=
+  file: "${FILE_TO_UPLOAD}"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
