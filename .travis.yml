@@ -7,6 +7,7 @@ sudo: required
 addons:
     apt:
         packages:
+            - asciidoc
             - gperf
             - elfutils
             - zlib1g-dev
@@ -64,7 +65,7 @@ before_install:
     - source ./.travis/install_cuda.sh
     # OSX dependencies
     - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-    - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install libmemcached; fi
+    - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
 
 
 script:
