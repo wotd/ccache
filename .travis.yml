@@ -50,11 +50,11 @@ matrix:
         - os: osx
           osx_image: xcode8.2
           compiler: clang
-          env: FEATURES="--enable-memcached"
+          env: FEATURES="--enable-memcached --with-bundled-zlib"
         - os: osx
           osx_image: xcode9
           compiler: clang
-          env: FEATURES="--enable-memcached"
+          env: FEATURES="--enable-memcached --with-bundled-zlib"
 
     exclude:
         - os: osx
