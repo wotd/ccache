@@ -8,6 +8,7 @@ addons:
     apt:
         packages:
             - asciidoc
+            - libxslt1-dev
             - gperf
             - elfutils
             - zlib1g-dev
