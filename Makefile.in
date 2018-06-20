@@ -169,7 +169,7 @@ ifeq ($(UNAME_S),Darwin)
 	@rm -rf "bundle/$(EXEC).dmg"
 	@mkdir -p "bundle/$(EXEC).app"/Contents/{MacOS,Resources,Frameworks}
 	@cp Info.plist "bundle/$(EXEC).app/Contents/"
-	@sed -i s/EXEC/$(EXEC)/g "bundle/$(EXEC).app/Contents/Info.plist"
+	@sed -i '.bak' s/EXEC/$(EXEC)/g "bundle/$(EXEC).app/Contents/Info.plist"
 	@cp `otool -L "$(EXEC)" | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1,"bundle/$(EXEC).app/Contents/Frameworks"}'`
 	@install_name_tool -change `otool -L $(EXEC) | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1; gsub(/^.*\//,"",$$1); print "@executable_path/../Frameworks/"$$1}'` $(EXEC)
 	@cp $(EXEC) "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)"
