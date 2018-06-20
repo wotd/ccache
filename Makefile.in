@@ -2,6 +2,9 @@ srcdir = @srcdir@
 builddir = @builddir@
 VPATH = @srcdir@
 
+EXEC=ccache
+UNAME_S := $(shell uname -s)
+
 prefix = @prefix@
 exec_prefix = @exec_prefix@
 bindir = @bindir@
@@ -83,30 +86,31 @@ all_objs = $(ccache_objs) $(test_objs) $(zlib_objs)
 
 files_to_clean = \
     $(all_objs) \
-    ccache$(EXEEXT) \
+    $(EXEC)$(EXEEXT) \
     src/*~ \
     src/zlib/libz.a \
     testdir.* \
     unittest/run$(EXEEXT) \
+    build/$(EXEC).app \
     *~
 
 files_to_distclean = Makefile config.h config.log config.status
 
 .PHONY: all
-all: ccache$(EXEEXT)
+all: $(EXEC)$(EXEEXT)
 
-ccache$(EXEEXT): $(ccache_objs) $(extra_libs)
+$(EXEC)$(EXEEXT): $(ccache_objs) $(extra_libs)
 	$(CC) $(all_cflags) -o $@ $(ccache_objs) $(LDFLAGS) $(extra_libs) $(LIBS)
 
-ccache.1: doc/ccache.1
+$(EXEC).1: doc/$(EXEC).1
 	cp $< $@
 
 .PHONY: install
-install: ccache$(EXEEXT) ccache.1
+install: $(EXEC)$(EXEEXT) $(EXEC).1
 	$(installcmd) -d $(DESTDIR)$(bindir)
-	$(installcmd) -m 755 ccache$(EXEEXT) $(DESTDIR)$(bindir)
+	$(installcmd) -m 755 $(EXEC)$(EXEEXT) $(DESTDIR)$(bindir)
 	$(installcmd) -d $(DESTDIR)$(mandir)/man1
-	-$(installcmd) -m 644 ccache.1 $(DESTDIR)$(mandir)/man1/
+	-$(installcmd) -m 644 $(EXEC).1 $(DESTDIR)$(mandir)/man1/
 
 .PHONY: clean
 clean:
@@ -121,11 +125,11 @@ src/zlib/libz.a: $(zlib_objs)
 	$(RANLIB) $@
 
 .PHONY: perf
-perf: ccache$(EXEEXT)
-	$(srcdir)/perf/perf.py --ccache ccache$(EXEEXT) $(CC) $(all_cppflags) $(all_cflags) $(srcdir)/src/ccache.c
+perf: $(EXEC)$(EXEEXT)
+	$(srcdir)/perf/perf.py --ccache $(EXEC)$(EXEEXT) $(CC) $(all_cppflags) $(all_cflags) $(srcdir)/src/ccache.c
 
 .PHONY: test
-test: ccache$(EXEEXT) unittest/run$(EXEEXT)
+test: $(EXEC)$(EXEEXT) unittest/run$(EXEEXT)
 	unittest/run$(EXEEXT)
 	CC='$(CC)' @ccache_memcached@$(BASH) $(srcdir)/test/run
 
@@ -149,11 +153,29 @@ distclean: clean
 	rm -rf $(files_to_distclean)
 
 .PHONY: installcheck
-installcheck: ccache$(EXEEXT) unittest/run$(EXEEXT)
+installcheck: $(EXEC)$(EXEEXT) unittest/run$(EXEEXT)
 	unittest/run$(EXEEXT)
-	CCACHE=$(bindir)/ccache CC='$(CC)' $(BASH) $(srcdir)/test/run
+	CCACHE=$(bindir)/$(EXEC) CC='$(CC)' $(BASH) $(srcdir)/test/run
 
 .c.o:
 	$(CC) $(all_cppflags) $(all_cflags) -c -o $@ $<
+
+.PHONY: package
+package:
+	@echo
+	@echo Building app bundle
+ifeq ($(UNAME_S),Darwin)
+	@rm -rf "./build/$(EXEC).app"
+	@rm -rf "./build/$(EXEC).dmg"
+	@mkdir -p "./build/$(EXEC).app"/Contents/{MacOS,Resources,Frameworks}
+	@cp Info.plist "./build/$(EXEC).app/Contents/"
+	@sed -i s/EXEC/$(EXEC)/g "./build/$(EXEC).app/Contents/Info.plist"
+	@cp `otool -L "$(EXEC)" | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1,"./build/$(EXEC).app/Contents/Frameworks"}'`
+	@install_name_tool -change `otool -L $(EXEC) | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1; gsub(/^.*\//,"",$$1); print "@executable_path/../Frameworks/"$$1}'` $(EXEC)
+	@cp ./$(EXEC) "./build/$(EXEC).app/Contents/MacOS/$(EXEC)"
+	@echo
+	@echo Creating Disk Image
+	@hdiutil create "./build/$(EXEC).dmg" -volname "ccache" -srcfolder "./build/$(EXEC).app"
+endif
 
 @include_dev_mk@
