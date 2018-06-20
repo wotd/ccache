@@ -163,8 +163,8 @@ installcheck: $(EXEC)$(EXEEXT) unittest/run$(EXEEXT)
 .PHONY: package
 package:
 	@echo
-	@echo Building app bundle
 ifeq ($(UNAME_S),Darwin)
+	@echo Building app bundle
 	@rm -rf "./build/$(EXEC).app"
 	@rm -rf "./build/$(EXEC).dmg"
 	@mkdir -p "./build/$(EXEC).app"/Contents/{MacOS,Resources,Frameworks}
