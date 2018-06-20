@@ -165,17 +165,17 @@ package:
 	@echo
 ifeq ($(UNAME_S),Darwin)
 	@echo Building app bundle
-	@rm -rf "./bundle/$(EXEC).app"
-	@rm -rf "./bundle/$(EXEC).dmg"
-	@mkdir -p "./bundle/$(EXEC).app"/Contents/{MacOS,Resources,Frameworks}
-	@cp Info.plist "./bundle/$(EXEC).app/Contents/"
-	@sed -i s/EXEC/$(EXEC)/g "./bundle/$(EXEC).app/Contents/Info.plist"
-	@cp `otool -L "$(EXEC)" | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1,"./bundle/$(EXEC).app/Contents/Frameworks"}'`
+	@rm -rf "bundle/$(EXEC).app"
+	@rm -rf "bundle/$(EXEC).dmg"
+	@mkdir -p "bundle/$(EXEC).app"/Contents/{MacOS,Resources,Frameworks}
+	@cp Info.plist "bundle/$(EXEC).app/Contents/"
+	@sed -i s/EXEC/$(EXEC)/g "bundle/$(EXEC).app/Contents/Info.plist"
+	@cp `otool -L "$(EXEC)" | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1,"bundle/$(EXEC).app/Contents/Frameworks"}'`
 	@install_name_tool -change `otool -L $(EXEC) | grep -v "\/usr\/lib" | grep "\/" | awk '{print $$1; gsub(/^.*\//,"",$$1); print "@executable_path/../Frameworks/"$$1}'` $(EXEC)
-	@cp ./$(EXEC) "./bundle/$(EXEC).app/Contents/MacOS/$(EXEC)"
+	@cp $(EXEC) "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)"
 	@echo
 	@echo Creating Disk Image
-	@hdiutil create "./bundle/$(EXEC).dmg" -volname "ccache" -srcfolder "./bundle/$(EXEC).app"
+	@hdiutil create "bundle/$(EXEC).dmg" -volname "ccache" -srcfolder "bundle/$(EXEC).app"
 endif
 
 @include_dev_mk@
