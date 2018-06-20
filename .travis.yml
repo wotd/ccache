@@ -30,6 +30,10 @@ compiler:
     - clang
     - gcc
 
+env:
+  global:
+    - XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+
 matrix:
     include:
         - os: linux
@@ -75,11 +79,11 @@ script:
     - make
     - make ${TEST:-test}
     - sudo make install
-    - tar cvfz ccache-$($(pwd)/build/bin/ccache -V | grep "ccache version" | awk '{ print $3 }').tgz --directory $(pwd)/build/ .
+    - make package
 
 
 before_deploy:
-  - export FILE_TO_UPLOAD=$(ls $(pwd)/ccache*.tgz)
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/build/ccache.dmg"; fi
 
 deploy:
   provider: releases
@@ -89,4 +93,4 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
-    tags: true
+    tags: false
