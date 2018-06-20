@@ -83,7 +83,7 @@ script:
 
 
 before_deploy:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/build/ccache.dmg"; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg"; fi
 
 deploy:
   provider: releases
