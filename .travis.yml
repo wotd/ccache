@@ -40,6 +40,10 @@ matrix:
           compiler: gcc
           sudo: required
           dist: trusty
+          env: FEATURES="--enable-memcached"
+        - os: linux
+          compiler: clang
+          env: FEATURES="--enable-memcached"
 #        - os: linux
 #          compiler: i586-mingw32msvc-gcc
 #          env: HOST="--host=i586-mingw32msvc" TEST="test/main.exe"
@@ -58,9 +62,11 @@ matrix:
         - os: osx
           osx_image: xcode8.3
           compiler: clang
+          env: FEATURES=" --enable-memcached --with-bundled-zlib"
         - os: osx
           osx_image: xcode9
           compiler: clang
+          env: FEATURES="--enable-memcached --with-bundled-zlib"
 
     exclude:
         - os: osx
@@ -75,7 +81,7 @@ before_install:
 
 script:
     - ./autogen.sh
-    - ./configure --prefix $(pwd)/build $HOST $FEATURES --enable-memcached --with-bundled-zlib
+    - ./configure --prefix $(pwd)/build $HOST $FEATURES
     - make
     - make ${TEST:-test}
     - make install
