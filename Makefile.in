@@ -91,7 +91,8 @@ files_to_clean = \
     src/zlib/libz.a \
     testdir.* \
     unittest/run$(EXEEXT) \
-    build/$(EXEC).app \
+    bundle/$(EXEC)*.app \
+    bundle/$(EXEC)*.dmg \
     *~
 
 files_to_distclean = Makefile config.h config.log config.status
