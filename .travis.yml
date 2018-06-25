@@ -84,7 +84,6 @@ script:
     - ./configure --prefix $(pwd)/build $HOST $FEATURES
     - make
     - make ${TEST:-test}
-    - make install
     - make package
 
 
