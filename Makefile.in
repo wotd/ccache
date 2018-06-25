@@ -181,7 +181,7 @@ endef
 export plist
 
 .PHONY: package
-package:
+package: install
 	@echo
 ifeq ($(UNAME_S),Darwin)
 	@echo Building app bundle
