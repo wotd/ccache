@@ -78,7 +78,7 @@ script:
     - ./configure --prefix $(pwd)/build $HOST $FEATURES --enable-memcached --with-bundled-zlib
     - make
     - make ${TEST:-test}
-    - sudo make install
+    - make install
     - make package
 
 
