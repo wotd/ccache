@@ -189,9 +189,9 @@ ifeq ($(UNAME_S),Darwin)
 	@rm -rf "bundle/"
 	@mkdir -p "bundle/$(EXEC).app"/Contents/{MacOS,Resources,Frameworks}
 	@echo $$plist > "bundle/$(EXEC).app"/Contents/Info.plist
-	cp $(EXEC) "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)"
-	cp `otool -L "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)" | grep -v "\/usr\/lib" | grep -v "\:" | awk '{print $$1,"bundle/$(EXEC).app/Contents/Frameworks"}'` 2>/dev/null || :
-	install_name_tool -change `otool -L "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)" | grep -v "\/usr\/lib" | grep -v "\:" | awk '{print $$1; gsub(/^.*\//,"",$$1); print "@executable_path/../Frameworks/"$$1}'` "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)" 2>/dev/null || :
+	@cp $(EXEC) "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)"
+	@cp `otool -L "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)" | grep -v "\/usr\/lib" | grep -v "\:" | awk '{print $$1,"bundle/$(EXEC).app/Contents/Frameworks"}'` 2>/dev/null || :
+	@install_name_tool -change `otool -L "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)" | grep -v "\/usr\/lib" | grep -v "\:" | awk '{print $$1; gsub(/^.*\//,"",$$1); print "@executable_path/../Frameworks/"$$1}'` "bundle/$(EXEC).app/Contents/MacOS/$(EXEC)" 2>/dev/null || :
 	$(eval VERSION := $(shell ./$(EXEC) -V | grep 'ccache version' | awk '{ print $$3 }'))
 	@echo Creating Disk Image
 	@hdiutil create "bundle/$(EXEC)-$(VERSION).dmg" -volname "ccache" -srcfolder "bundle/$(EXEC).app"
