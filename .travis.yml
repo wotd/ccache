@@ -72,13 +72,12 @@ script:
   - make package
 before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg"; fi
-deploy:
-  on: feature/macosdistribution
+deploy: 
   provider: releases
   api_key:
     - secure: F94cuUIlII4r077jgelBBQhzjKb/7pGFPFDzHIGfZGSNIA7tqdhL6wZ8Aj9cqxzn91LQfqGJX1bd3sEKRautdg6HDqMdKJ20UhG41EylDXsTPCgb9qCRlH+cKo9wY/QZnH7lAhiKkMtou4L33HdKRV+qKa7j8QEPGwpoGpGE1Bj1ppLkak4sU7wx1v1GiXAbEK/Turqmrp9FgkeAz76xSWCNYaa+2co/SDdolgLu+EXiWVcprxXpbXFWTY8s6XRilJFdPjEd2a9qJ1jpXe1PUGeqv0DhFE25FJTCnkmsbIQCzSP18HGANR48oP/hna81HXOvPQJL/idvLZj/G/uLcCWbcM5uy62jvjW5dh7wMRzvqwDwHKBSjZC/bzbQ3idba6ff5TbcC0vyLUkzuPOpo0v8l1cl+YhVyh3Sck3IBORdziFBPCKfurdGG34w8ISQ8M3XuKFAO27qXJffpxOoh2L77wtvQeYKJnOPgVUrQHJtBWcDj1hV1xAN8BPv/ApY14CqkEHRaQbHsZst+G6D0FDvl9hme/1HWmc2ARdfhsQLgz050wQ/kEn9syc6AHbNdm1x4HDZwkdrYrkEr4BK+505fpoTS1gS1ssYswPQ760Vp49I6SItaqf2UJS7jfS81xgOxoWFqzTPUC+zxQbboe6nE6KkTxtZZSns83SJm1Y=
   file: "${FILE_TO_UPLOAD}"
   skip_cleanup: true
   overwrite: true
-  on:
+  on: feature/macosdistribution
     tags: true
