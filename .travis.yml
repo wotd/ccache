@@ -1,99 +1,82 @@
 language: c
-
 cache: ccache
-
 sudo: required
-
 addons:
-    apt:
-        packages:
-            - asciidoc
-            - libxslt1-dev
-            - xsltproc
-            - docbook-xml
-            - docbook-xsl
-            - gperf
-            - elfutils
-            - zlib1g-dev
-            - libmemcached-dev
-            - libmemcached-tools
-            - memcached
-            - mingw32
-            - mingw32-binutils
-            - clang    # scan-build
-
+  apt:
+    packages:
+      - asciidoc
+      - libxslt1-dev
+      - xsltproc
+      - docbook-xml
+      - docbook-xsl
+      - gperf
+      - elfutils
+      - zlib1g-dev
+      - libmemcached-dev
+      - libmemcached-tools
+      - memcached
+      - mingw32
+      - mingw32-binutils
+      - clang
 os:
-    - linux
-    - osx
-
+  - linux
+  - osx
 compiler:
-    - clang
-    - gcc
-
+  - clang
+  - gcc
 env:
   global:
     - XML_CATALOG_FILES=/usr/local/etc/xml/catalog
-
 matrix:
-    include:
-        - os: linux
-          compiler: gcc
-          sudo: required
-          dist: trusty
-          env: FEATURES="--enable-memcached"
-        - os: linux
-          compiler: clang
-          env: FEATURES="--enable-memcached"
-#        - os: linux
-#          compiler: i586-mingw32msvc-gcc
-#          env: HOST="--host=i586-mingw32msvc" TEST="test/main.exe"
-        - os: linux
-          compiler: clang
-          env: CFLAGS="-fsanitize=undefined" ASAN_OPTIONS="detect_leaks=0"
-        - os: linux
-          compiler: clang
-          env: CFLAGS="-fsanitize=address -g" ASAN_OPTIONS="detect_leaks=0"
-        - os: linux
-          compiler: clang
-          env: PATH="/usr/bin:$PATH" TEST=analyze
-        - os: linux
-          compiler: gcc
-          env: CUDA=8.0.61-1
-        - os: osx
-          osx_image: xcode8.3
-          compiler: clang
-          env: FEATURES=" --enable-memcached --with-bundled-zlib"
-        - os: osx
-          osx_image: xcode9
-          compiler: clang
-          env: FEATURES="--enable-memcached --with-bundled-zlib"
-
-    exclude:
-        - os: osx
-          compiler: gcc
-
+  include:
+    - os: linux
+      compiler: gcc
+      sudo: required
+      dist: trusty
+      env: FEATURES="--enable-memcached"
+    - os: linux
+      compiler: clang
+      env: FEATURES="--enable-memcached"
+    - os: linux
+      compiler: clang
+      env: CFLAGS="-fsanitize=undefined" ASAN_OPTIONS="detect_leaks=0"
+    - os: linux
+      compiler: clang
+      env: CFLAGS="-fsanitize=address -g" ASAN_OPTIONS="detect_leaks=0"
+    - os: linux
+      compiler: clang
+      env: PATH="/usr/bin:$PATH" TEST=analyze
+    - os: linux
+      compiler: gcc
+      env: CUDA=8.0.61-1
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+      env: FEATURES=" --enable-memcached --with-bundled-zlib"
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: FEATURES="--enable-memcached --with-bundled-zlib"
+  exclude:
+    - os: osx
+      compiler: gcc
 before_install:
-    - source ./.travis/install_cuda.sh
-    # OSX dependencies
-    - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-    - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
-
-
+  - source ./.travis/install_cuda.sh
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
 script:
-    - ./autogen.sh
-    - ./configure --prefix $(pwd)/build $HOST $FEATURES
-    - make
-    - make ${TEST:-test}
-    - make package
-
-
+  - "./autogen.sh"
+  - "./configure --prefix $(pwd)/build $HOST $FEATURES"
+  - make
+  - make ${TEST:-test}
+  - make package
 before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg"; fi
-
 deploy:
+  on: feature/macosdistribution
   provider: releases
   api_key:
-    - secure: G4rIpoLDYsjZhHOptB8pIVvkIinEUAxQpb2EFAwVQHk2tlfVCy0gdDIOdtK22cVAZ/Qj3p8BNeoIOQSHVlkHB9XOH1EGjZK7H/WvOnkjgDigOeoj9vHzg9KvBk8CQB2QSyIkdPy5xg6KfuvgMZW9n/5G/k5Gphl5N5QlDFBTxK6yk9ufBh1RS+wf0czdagUqkAyuMtrBfKx15mKuSFp/TAm+Q9OsCB4gvjHNQnTWCIt87OmtHFKzWpNek4F+UA6zjKd2Veq7yp8KTuAT8qAfOkEMgZjW90Mq/MWgHZ/ZQrez5G40M7sTZz1nNrkeFB40LypQ9wgIUjqrxDQDg2Ns9nDSVhUM4SsNb1uWDWjxiNn6uG/gwXEHt7IttKnzp/pFSON+oXdPdLv3MwPI6z/LWN3v8ncDmVaHysMNKwUGiH7RGefrzd+FhOL3xTxWFnOgZKpBPdMWldHUNPQerh0Fqr/6a5RF8ffhIU3cR672manTlOCW/SLaU+2MvVkB5QxOTlvHCe5v6GUMivTlywDojZW6GelyS+kdZLhL7rsh8kAqxr+3r13Y8rFpsbkz7+VnDaqOSwUkMlMGGrAlbgr8ipFOv74pj8SjpA3d+rlHU5xnA2zU1Eb2uuaGMtSzIdpVlG6akQoRpoqLPM5P4doyOXfm9it3HuKZJabOlulJVOo=
+    - secure: F94cuUIlII4r077jgelBBQhzjKb/7pGFPFDzHIGfZGSNIA7tqdhL6wZ8Aj9cqxzn91LQfqGJX1bd3sEKRautdg6HDqMdKJ20UhG41EylDXsTPCgb9qCRlH+cKo9wY/QZnH7lAhiKkMtou4L33HdKRV+qKa7j8QEPGwpoGpGE1Bj1ppLkak4sU7wx1v1GiXAbEK/Turqmrp9FgkeAz76xSWCNYaa+2co/SDdolgLu+EXiWVcprxXpbXFWTY8s6XRilJFdPjEd2a9qJ1jpXe1PUGeqv0DhFE25FJTCnkmsbIQCzSP18HGANR48oP/hna81HXOvPQJL/idvLZj/G/uLcCWbcM5uy62jvjW5dh7wMRzvqwDwHKBSjZC/bzbQ3idba6ff5TbcC0vyLUkzuPOpo0v8l1cl+YhVyh3Sck3IBORdziFBPCKfurdGG34w8ISQ8M3XuKFAO27qXJffpxOoh2L77wtvQeYKJnOPgVUrQHJtBWcDj1hV1xAN8BPv/ApY14CqkEHRaQbHsZst+G6D0FDvl9hme/1HWmc2ARdfhsQLgz050wQ/kEn9syc6AHbNdm1x4HDZwkdrYrkEr4BK+505fpoTS1gS1ssYswPQ760Vp49I6SItaqf2UJS7jfS81xgOxoWFqzTPUC+zxQbboe6nE6KkTxtZZSns83SJm1Y=
   file: "${FILE_TO_UPLOAD}"
   skip_cleanup: true
   overwrite: true
