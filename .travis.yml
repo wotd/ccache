@@ -18,6 +18,7 @@ addons:
     - mingw32
     - mingw32-binutils
     - clang
+    - cuda-repo-ubuntu1404
 os:
 - linux
 - osx
