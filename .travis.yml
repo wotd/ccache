@@ -18,7 +18,6 @@ addons:
     - mingw32
     - mingw32-binutils
     - clang
-    - cuda-repo-ubuntu1404
 os:
 - linux
 - osx
@@ -47,9 +46,9 @@ matrix:
   - os: linux
     compiler: clang
     env: PATH="/usr/bin:$PATH" TEST=analyze
-  - os: linux
-    compiler: travis_wait 20 gcc
-    env: travis_wait 20 CUDA=8.0.61-1
+  # - os: linux
+  #   compiler: travis_wait 20 gcc
+  #   env: travis_wait 20 CUDA=8.0.61-1
   - os: osx
     osx_image: xcode8.3
     compiler: clang
