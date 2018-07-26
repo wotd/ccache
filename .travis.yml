@@ -47,8 +47,8 @@ matrix:
     compiler: clang
     env: PATH="/usr/bin:$PATH" TEST=analyze
   - os: linux
-    compiler: travis_wait gcc
-    env: CUDA=8.0.61-1
+    compiler: travis_wait 20 gcc
+    env: travis_wait 20 CUDA=8.0.61-1
   - os: osx
     osx_image: xcode8.3
     compiler: clang
