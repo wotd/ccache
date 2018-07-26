@@ -4,78 +4,79 @@ sudo: required
 addons:
   apt:
     packages:
-      - asciidoc
-      - libxslt1-dev
-      - xsltproc
-      - docbook-xml
-      - docbook-xsl
-      - gperf
-      - elfutils
-      - zlib1g-dev
-      - libmemcached-dev
-      - libmemcached-tools
-      - memcached
-      - mingw32
-      - mingw32-binutils
-      - clang
+    - asciidoc
+    - libxslt1-dev
+    - xsltproc
+    - docbook-xml
+    - docbook-xsl
+    - gperf
+    - elfutils
+    - zlib1g-dev
+    - libmemcached-dev
+    - libmemcached-tools
+    - memcached
+    - mingw32
+    - mingw32-binutils
+    - clang
 os:
-  - linux
-  - osx
+- linux
+- osx
 compiler:
-  - clang
-  - gcc
+- clang
+- gcc
 env:
   global:
-    - XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+  - XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 matrix:
   include:
-    - os: linux
-      compiler: gcc
-      sudo: required
-      dist: trusty
-      env: FEATURES="--enable-memcached"
-    - os: linux
-      compiler: clang
-      env: FEATURES="--enable-memcached"
-    - os: linux
-      compiler: clang
-      env: CFLAGS="-fsanitize=undefined" ASAN_OPTIONS="detect_leaks=0"
-    - os: linux
-      compiler: clang
-      env: CFLAGS="-fsanitize=address -g" ASAN_OPTIONS="detect_leaks=0"
-    - os: linux
-      compiler: clang
-      env: PATH="/usr/bin:$PATH" TEST=analyze
-    - os: linux
-      compiler: gcc
-      env: CUDA=8.0.61-1
-    - os: osx
-      osx_image: xcode8.3
-      compiler: clang
-      env: FEATURES=" --enable-memcached --with-bundled-zlib"
-    - os: osx
-      osx_image: xcode9
-      compiler: clang
-      env: FEATURES="--enable-memcached --with-bundled-zlib"
+  - os: linux
+    compiler: gcc
+    sudo: required
+    dist: trusty
+    env: FEATURES="--enable-memcached"
+  - os: linux
+    compiler: clang
+    env: FEATURES="--enable-memcached"
+  - os: linux
+    compiler: clang
+    env: CFLAGS="-fsanitize=undefined" ASAN_OPTIONS="detect_leaks=0"
+  - os: linux
+    compiler: clang
+    env: CFLAGS="-fsanitize=address -g" ASAN_OPTIONS="detect_leaks=0"
+  - os: linux
+    compiler: clang
+    env: PATH="/usr/bin:$PATH" TEST=analyze
+  - os: linux
+    compiler: gcc
+    env: CUDA=8.0.61-1
+  - os: osx
+    osx_image: xcode8.3
+    compiler: clang
+    env: FEATURES=" --enable-memcached --with-bundled-zlib"
+  - os: osx
+    osx_image: xcode9
+    compiler: clang
+    env: FEATURES="--enable-memcached --with-bundled-zlib"
   exclude:
-    - os: osx
-      compiler: gcc
+  - os: osx
+    compiler: gcc
 before_install:
-  - source ./.travis/install_cuda.sh
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
+- source ./.travis/install_cuda.sh
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
 script:
-  - "./autogen.sh"
-  - "./configure --prefix $(pwd)/build $HOST $FEATURES"
-  - make
-  - make ${TEST:-test}
-  - make package
+- "./autogen.sh"
+- "./configure --prefix $(pwd)/build $HOST $FEATURES"
+- make
+- make ${TEST:-test}
+- make package
 before_deploy:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg"; fi
-deploy: 
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg";
+  fi
+deploy:
   provider: releases
   api_key:
-    - secure: F94cuUIlII4r077jgelBBQhzjKb/7pGFPFDzHIGfZGSNIA7tqdhL6wZ8Aj9cqxzn91LQfqGJX1bd3sEKRautdg6HDqMdKJ20UhG41EylDXsTPCgb9qCRlH+cKo9wY/QZnH7lAhiKkMtou4L33HdKRV+qKa7j8QEPGwpoGpGE1Bj1ppLkak4sU7wx1v1GiXAbEK/Turqmrp9FgkeAz76xSWCNYaa+2co/SDdolgLu+EXiWVcprxXpbXFWTY8s6XRilJFdPjEd2a9qJ1jpXe1PUGeqv0DhFE25FJTCnkmsbIQCzSP18HGANR48oP/hna81HXOvPQJL/idvLZj/G/uLcCWbcM5uy62jvjW5dh7wMRzvqwDwHKBSjZC/bzbQ3idba6ff5TbcC0vyLUkzuPOpo0v8l1cl+YhVyh3Sck3IBORdziFBPCKfurdGG34w8ISQ8M3XuKFAO27qXJffpxOoh2L77wtvQeYKJnOPgVUrQHJtBWcDj1hV1xAN8BPv/ApY14CqkEHRaQbHsZst+G6D0FDvl9hme/1HWmc2ARdfhsQLgz050wQ/kEn9syc6AHbNdm1x4HDZwkdrYrkEr4BK+505fpoTS1gS1ssYswPQ760Vp49I6SItaqf2UJS7jfS81xgOxoWFqzTPUC+zxQbboe6nE6KkTxtZZSns83SJm1Y=
+  - secure: 4KDX5dtSgNyvLiCIqg86Rw5MTub+TFWd3iU3TwNKLUj1VEdBgjPVWRQ7XX4m5rqJdDB1Yik10Zh2FgVLQ5z5lAAHgej3Gck0r6LVL1r86AHTLc8M0oqBO/c8mgWQxA5lOcguEoE9Hgem7ocUBjTO4egxsiUOm1OszFh6nAaUxHxk3he1pPo7do2jQ2OEc3VrpuSiGEOqIhKaXLfuGj1OulKkIjd4ig/qhgIU6agInx+8U5tzkVKh2450uAuuvGNdPFjxuoRYLxxUJLRLYW83JFHGx3tbMlWNBhdPNaE5aQtZbE3/13ttucdjzHJX0ZPTbF85zMByPCG0CumSXGkdVepKEIm/f6w+czCmVyrC6Bdq+aQ8tRn4Ipo1gHECIc6gxHo//2BKMDiAWPbqQ0Z2CR755i8+0x2vtvXiLWqrC4Cu0yHx7RywI9krd7sdvLP3X+r90o49xjdVkk6wdeFJt0lBL404AM2NJDZWiZNaV/oc2PaFxtI5W7pMRG8RHiR6wghE0mK4mWx1YRDeQXkGDz+5exizfhIbJ1NxjFPf2KKgyZP2900Tp8sGjgLGLiTHXRdCuynsW8uxhAN55OPy2CMkNgMsNhR/I3PIK8tC1A+iNjNh44VuXo/w85GlO/QZ4Hv8mqb/BfeiGCohVTMro+y9TiepTQhzI0R6CRiFoPI=
   file: "${FILE_TO_UPLOAD}"
   skip_cleanup: true
   overwrite: true
