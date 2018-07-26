@@ -80,5 +80,6 @@ deploy:
   file: "${FILE_TO_UPLOAD}"
   skip_cleanup: true
   overwrite: true
-  on: feature/macosdistribution
+  on: 
+    branch: feature/macosdistribution
     tags: true
