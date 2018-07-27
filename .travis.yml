@@ -80,6 +80,7 @@ deploy:
     branch: feature/macosdistribution
     tags: true
   provider: bintray
+  user: "wotd"
   file: "ccache.dmg"
   repo: "wotd/v"
   name: "ccache.dmg"
