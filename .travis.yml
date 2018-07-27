@@ -76,7 +76,7 @@ deploy:
   provider: releases
   api_key:
     secure: 4KDX5dtSgNyvLiCIqg86Rw5MTub+TFWd3iU3TwNKLUj1VEdBgjPVWRQ7XX4m5rqJdDB1Yik10Zh2FgVLQ5z5lAAHgej3Gck0r6LVL1r86AHTLc8M0oqBO/c8mgWQxA5lOcguEoE9Hgem7ocUBjTO4egxsiUOm1OszFh6nAaUxHxk3he1pPo7do2jQ2OEc3VrpuSiGEOqIhKaXLfuGj1OulKkIjd4ig/qhgIU6agInx+8U5tzkVKh2450uAuuvGNdPFjxuoRYLxxUJLRLYW83JFHGx3tbMlWNBhdPNaE5aQtZbE3/13ttucdjzHJX0ZPTbF85zMByPCG0CumSXGkdVepKEIm/f6w+czCmVyrC6Bdq+aQ8tRn4Ipo1gHECIc6gxHo//2BKMDiAWPbqQ0Z2CR755i8+0x2vtvXiLWqrC4Cu0yHx7RywI9krd7sdvLP3X+r90o49xjdVkk6wdeFJt0lBL404AM2NJDZWiZNaV/oc2PaFxtI5W7pMRG8RHiR6wghE0mK4mWx1YRDeQXkGDz+5exizfhIbJ1NxjFPf2KKgyZP2900Tp8sGjgLGLiTHXRdCuynsW8uxhAN55OPy2CMkNgMsNhR/I3PIK8tC1A+iNjNh44VuXo/w85GlO/QZ4Hv8mqb/BfeiGCohVTMro+y9TiepTQhzI0R6CRiFoPI=
-  file: "${FILE_TO_UPLOAD}"
+  file: "FILE_TO_UPLOAD"
   skip_cleanup: true
   overwrite: true
   on: 
