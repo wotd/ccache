@@ -68,7 +68,8 @@ script:
 - make ${TEST:-test}
 - make package
 before_deploy:
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg"; fi
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then export FILE_TO_UPLOAD="$(TRAVIS_BUILD_DIR)/bundle/ccache.dmg+$(TRAVIS_TAG)"; fi
+- ls $(TRAVIS_BUILD_DIR)/bundle
 deploy:
   provider: releases
   api_key:
