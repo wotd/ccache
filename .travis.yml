@@ -76,21 +76,21 @@ before_deploy:
 - echo $TRAVIS_TAG
 - echo $TRAVIS_BUILD_STAGE_NAME
 deploy:
-  provider: releases
-  api_key:
-    secure: 4KDX5dtSgNyvLiCIqg86Rw5MTub+TFWd3iU3TwNKLUj1VEdBgjPVWRQ7XX4m5rqJdDB1Yik10Zh2FgVLQ5z5lAAHgej3Gck0r6LVL1r86AHTLc8M0oqBO/c8mgWQxA5lOcguEoE9Hgem7ocUBjTO4egxsiUOm1OszFh6nAaUxHxk3he1pPo7do2jQ2OEc3VrpuSiGEOqIhKaXLfuGj1OulKkIjd4ig/qhgIU6agInx+8U5tzkVKh2450uAuuvGNdPFjxuoRYLxxUJLRLYW83JFHGx3tbMlWNBhdPNaE5aQtZbE3/13ttucdjzHJX0ZPTbF85zMByPCG0CumSXGkdVepKEIm/f6w+czCmVyrC6Bdq+aQ8tRn4Ipo1gHECIc6gxHo//2BKMDiAWPbqQ0Z2CR755i8+0x2vtvXiLWqrC4Cu0yHx7RywI9krd7sdvLP3X+r90o49xjdVkk6wdeFJt0lBL404AM2NJDZWiZNaV/oc2PaFxtI5W7pMRG8RHiR6wghE0mK4mWx1YRDeQXkGDz+5exizfhIbJ1NxjFPf2KKgyZP2900Tp8sGjgLGLiTHXRdCuynsW8uxhAN55OPy2CMkNgMsNhR/I3PIK8tC1A+iNjNh44VuXo/w85GlO/QZ4Hv8mqb/BfeiGCohVTMro+y9TiepTQhzI0R6CRiFoPI=
-  file: $FILE_TO_UPLOAD
-  skip_cleanup: true
-  overwrite: true
-  on:
-    branch: feature/macosdistribution
-    tags: true
-  # provider: bintray
-  # file: "$TRAVIS_BUILD_DIR/bundle/*"
-  # user: "wotd"
-  # repo: "wotd/v"
-  # key:
-  #   secure: i91gsv0PaqePxUDnDlhWWMy9RyUWT++6Is4PwcS6bICPugvrvoGnzCCyLU2ZFwfr5TxwQSVVD8pS8V48ngeMSGMlwWRhwjWYd+nI7rZ18KsOlJb0DXeF09lBQ0uffz6OA8Pebfxllob43NzWdeqMYqskkOlyIPOxjczuZJNdQYAYnUST4YCS4di6c5iBheHSDi+DYgZ6G6ULIQOoGvN18MFRZplfqx4tAXRCaU8or1ASABlDk7Jru4+nZ02z1NImIUJ5mHPxH8kkYoBpoSU3MAMGg6XasT/8SupnTdPQYpNRuBDHzBfgZ2xZk2XsmXWmc/axGAZJje0udfleCU+8TKMUHnmupJg4t/fB7G9fWcSBO7lprMhA3e3rSsbC6mChHzL0oeytZtfGXWZiVbXvX/M7mxt4mESZwNxZCebwUda7ql7n0FYHUgVtiokJm+ywOaz38YBe9kOSHwTpeuZD9qsvHDaD2Xq5q07cP88IMBXTcjzJ2Jfo+THqE+8Zq1Of8HZ3v54P2DFrEeUSLlSnnsIz3Hr6BM7sa3wT9XOmizi+7MpI1adBlaXifhHHnZ4rpfsWypZonVtgL+rOU1kg7UAeDkWZpFG1s9z35NcH4IRrMAVjp6BcF3ovDXh8BEztXjNLKsLtAUicJlvA2Zp/ylXD7mXHDtNr1FRnOudnO7w=
+  # provider: releases
+  # api_key:
+  #   secure: 4KDX5dtSgNyvLiCIqg86Rw5MTub+TFWd3iU3TwNKLUj1VEdBgjPVWRQ7XX4m5rqJdDB1Yik10Zh2FgVLQ5z5lAAHgej3Gck0r6LVL1r86AHTLc8M0oqBO/c8mgWQxA5lOcguEoE9Hgem7ocUBjTO4egxsiUOm1OszFh6nAaUxHxk3he1pPo7do2jQ2OEc3VrpuSiGEOqIhKaXLfuGj1OulKkIjd4ig/qhgIU6agInx+8U5tzkVKh2450uAuuvGNdPFjxuoRYLxxUJLRLYW83JFHGx3tbMlWNBhdPNaE5aQtZbE3/13ttucdjzHJX0ZPTbF85zMByPCG0CumSXGkdVepKEIm/f6w+czCmVyrC6Bdq+aQ8tRn4Ipo1gHECIc6gxHo//2BKMDiAWPbqQ0Z2CR755i8+0x2vtvXiLWqrC4Cu0yHx7RywI9krd7sdvLP3X+r90o49xjdVkk6wdeFJt0lBL404AM2NJDZWiZNaV/oc2PaFxtI5W7pMRG8RHiR6wghE0mK4mWx1YRDeQXkGDz+5exizfhIbJ1NxjFPf2KKgyZP2900Tp8sGjgLGLiTHXRdCuynsW8uxhAN55OPy2CMkNgMsNhR/I3PIK8tC1A+iNjNh44VuXo/w85GlO/QZ4Hv8mqb/BfeiGCohVTMro+y9TiepTQhzI0R6CRiFoPI=
+  # file: $FILE_TO_UPLOAD
+  # skip_cleanup: true
+  # overwrite: true
   # on:
   #   branch: feature/macosdistribution
   #   tags: true
+  provider: bintray
+  file: $FILE_TO_UPLOAD
+  user: "wotd"
+  repo: "wotd/v"
+  key:
+    secure: i91gsv0PaqePxUDnDlhWWMy9RyUWT++6Is4PwcS6bICPugvrvoGnzCCyLU2ZFwfr5TxwQSVVD8pS8V48ngeMSGMlwWRhwjWYd+nI7rZ18KsOlJb0DXeF09lBQ0uffz6OA8Pebfxllob43NzWdeqMYqskkOlyIPOxjczuZJNdQYAYnUST4YCS4di6c5iBheHSDi+DYgZ6G6ULIQOoGvN18MFRZplfqx4tAXRCaU8or1ASABlDk7Jru4+nZ02z1NImIUJ5mHPxH8kkYoBpoSU3MAMGg6XasT/8SupnTdPQYpNRuBDHzBfgZ2xZk2XsmXWmc/axGAZJje0udfleCU+8TKMUHnmupJg4t/fB7G9fWcSBO7lprMhA3e3rSsbC6mChHzL0oeytZtfGXWZiVbXvX/M7mxt4mESZwNxZCebwUda7ql7n0FYHUgVtiokJm+ywOaz38YBe9kOSHwTpeuZD9qsvHDaD2Xq5q07cP88IMBXTcjzJ2Jfo+THqE+8Zq1Of8HZ3v54P2DFrEeUSLlSnnsIz3Hr6BM7sa3wT9XOmizi+7MpI1adBlaXifhHHnZ4rpfsWypZonVtgL+rOU1kg7UAeDkWZpFG1s9z35NcH4IRrMAVjp6BcF3ovDXh8BEztXjNLKsLtAUicJlvA2Zp/ylXD7mXHDtNr1FRnOudnO7w=
+  on:
+    branch: feature/macosdistribution
+    tags: true
