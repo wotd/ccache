@@ -53,9 +53,9 @@ matrix:
     - os: linux
       compiler: clang
       env: PATH="/usr/bin:$PATH" TEST=analyze
-    - os: linux
-      compiler: gcc
-      env: CUDA=8.0.61-1
+    # - os: linux
+    #   compiler: gcc
+    #   env: CUDA=8.0.61-1
     - os: osx
       osx_image: xcode8.3
       compiler: clang
@@ -70,7 +70,7 @@ matrix:
       compiler: gcc
 
 before_install:
-  - travis_wait 30 source ./.travis/install_cuda.sh
+  - source ./.travis/install_cuda.sh
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
 
