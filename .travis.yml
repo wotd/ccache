@@ -70,7 +70,6 @@ matrix:
       compiler: gcc
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then apt-get update; fi
   - travis_wait 30 source ./.travis/install_cuda.sh
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
