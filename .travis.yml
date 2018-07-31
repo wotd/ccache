@@ -47,7 +47,7 @@ matrix:
     compiler: clang
     env: PATH="/usr/bin:$PATH" TEST=analyze
   - os: linux
-    compiler: gcc
+    compiler: travis_wait 30 gcc
     env: CUDA=8.0.61-1
   - os: osx
     osx_image: xcode8.3
@@ -72,7 +72,7 @@ script:
 - make package
 before_deploy:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export FILE_TO_UPLOAD="$(ls $TRAVIS_BUILD_DIR/bundle/*dmg)"; fi
-- if [ "$TRAVIS_OS_NAME" = "linux" ]; then FILE_TO_UPLOAD="TRAVIS_BUILD_DIR/ccache" && ls $FILE_TO_UPLOAD; fi 
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then FILE_TO_UPLOAD="$TRAVIS_BUILD_DIR/ccache" && ls $FILE_TO_UPLOAD; fi 
 deploy:
   provider: releases
   api_key:
