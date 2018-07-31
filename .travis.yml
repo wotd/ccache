@@ -69,7 +69,7 @@ script:
 - make package
 before_deploy:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ls "$TRAVIS_BUILD_DIR/bundle" && export FILE_TO_UPLOAD="$(ls $TRAVIS_BUILD_DIR/bundle/*dmg)" && echo "$FILE_TO_UPLOAD"; fi
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then ls "$TRAVIS_BUILD_DIR" && FILE_TO_UPLOAD="TRAVIS_BUILD_DIR/*"; fi 
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then ls "$TRAVIS_BUILD_DIR" && FILE_TO_UPLOAD="TRAVIS_BUILD_DIR/*"; fi 
 deploy:
   provider: releases
   api_key:
