@@ -5,75 +5,73 @@ cache: ccache
 sudo: required
 
 addons:
-    apt:
-        packages:
-            - asciidoc
-            - libxslt1-dev
-            - xsltproc
-            - docbook-xml
-            - docbook-xsl
-            - gperf
-            - elfutils
-            - zlib1g-dev
-            - libmemcached-dev
-            - libmemcached-tools
-            - memcached
-            - mingw32
-            - mingw32-binutils
-            - clang    # scan-build
+  apt:
+    packages:
+      - asciidoc
+      - libxslt1-dev
+      - xsltproc
+      - docbook-xml
+      - docbook-xsl
+      - gperf
+      - elfutils
+      - zlib1g-dev
+      - libmemcached-dev
+      - libmemcached-tools
+      - memcached
+      - mingw32
+      - mingw32-binutils
+      - clang
 
 os:
-    - linux
-    - osx
+  - linux
+  - osx
 
 compiler:
-    - clang
-    - gcc
+  - clang
+  - gcc
 
 env:
   global:
     - XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 matrix:
-    include:
-        - os: linux
-          compiler: gcc
-          sudo: required
-          dist: trusty
-          env: FEATURES="--enable-memcached"
-        - os: linux
-          compiler: clang
-          dist: trusty
-          env: FEATURES="--enable-memcached"
-        - os: osx
-          osx_image: xcode8.3
-          compiler: clang
-          env: FEATURES=" --enable-memcached --with-bundled-zlib"
-        - os: osx
-          osx_image: xcode9
-          compiler: clang
-          env: FEATURES="--enable-memcached --with-bundled-zlib"
-
-    exclude:
-        - os: osx
-          compiler: gcc
+  include:
+    - os: linux
+      compiler: gcc
+      sudo: required
+      dist: trusty
+      env: FEATURES="--enable-memcached"
+    - os: linux
+      compiler: clang
+      env: FEATURES="--enable-memcached"
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+      env: FEATURES=" --enable-memcached --with-bundled-zlib"
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: FEATURES="--enable-memcached --with-bundled-zlib"
+  
+  exclude:
+    - os: osx
+      compiler: gcc
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-    - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
-
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install asciidoc libmemcached; fi
 
 script:
-    - ./autogen.sh
-    - ./configure --prefix $(pwd)/build $HOST $FEATURES
-    - make
-    - make ${TEST:-test}
-    - make package
-
+  - "./autogen.sh"
+  - "./configure --prefix $(pwd)/build $HOST $FEATURES"
+  - make
+  - make ${TEST:-test}
+  - make package
 
 before_deploy:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; export FILE_TO_UPLOAD="$(pwd)/bundle/ccache.dmg"; fi
-
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export FILE_TO_UPLOAD="$(ls $TRAVIS_BUILD_DIR/bundle/*dmg)"; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then FILE_TO_UPLOAD="$TRAVIS_BUILD_DIR/ccache" && ls $FILE_TO_UPLOAD; fi 
+  
 deploy:
   provider: releases
   api_key:
