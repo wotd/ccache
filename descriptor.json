@@ -12,13 +12,13 @@
 
 
     "version": {
-        "name": "1.0.12"
+        "name": "CCACHE_VERSION"
     },
 
     "files":
         [
         {"includePattern": "ccache", "uploadPattern": "/ccache"},
-        {"includePattern": "bundle/ccache-*.dmg", "uploadPattern": "/macos/ccache.dmg"}
+        {"includePattern": "FILE_TO_DEPLOY", "uploadPattern": "/macos/ccache-CCACHE_VERSION.dmg"}
         ],
     "publish": true
 }
