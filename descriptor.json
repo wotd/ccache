@@ -12,7 +12,7 @@
 
 
     "version": {
-        "name": "0.5"
+        "name": "${TRAVIS_TAG}"
     },
 
     "files":
