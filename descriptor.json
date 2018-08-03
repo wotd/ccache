@@ -17,10 +17,8 @@
 
     "files":
         [
-        {"includePattern": "ccache", "uploadPattern": "/linux/ccache", "matrixParams": {
-        "override": 1 }},
-        {"includePattern": "FILE_TO_DEPLOY", "uploadPattern": "/macos/ccache.dmg", "matrixParams": {
-        "override": 1 }}
+        {"includePattern": "ccache", "uploadPattern": "/linux/ccache"},
+        {"includePattern": "FILE_TO_DEPLOY", "uploadPattern": "/macos/ccache.dmg"}
         ],
     "publish": true,
 }
