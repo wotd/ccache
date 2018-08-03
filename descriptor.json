@@ -17,8 +17,8 @@
 
     "files":
         [
-        {"includePattern": "ccache", "uploadPattern": "/$1"},
-        {"includePattern": "bundle\/ccache-(.*)*\\.dmg", "uploadPattern": "/macos/$1"}
+        {"includePattern": "ccache", "uploadPattern": "/ccache-${TRAVIS_TAG}"},
+        {"includePattern": "bundle\/ccache-(.*)*\\.dmg", "uploadPattern": "/macos/${TRAVIS_TAG}.dmg"}
         ],
     "publish": true
 }
