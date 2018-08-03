@@ -70,9 +70,9 @@ script:
 
 before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export FILE_TO_UPLOAD="$(ls bundle/*dmg)" && CCACHE_VERSION=$TRAVIS_TAG; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sed -i '' "s|FILE_TO_DEPLOY|$FILE_TO_UPLOAD|g; s/CCACHE_VERSION/1.2.3/g" descriptor.json; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sed -i '' "s|FILE_TO_DEPLOY|$FILE_TO_UPLOAD|g; s/CCACHE_VERSION/$CCACHE_VERSION/g" descriptor.json; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then FILE_TO_UPLOAD="$TRAVIS_BUILD_DIR/ccache" && CCACHE_VERSION=$TRAVIS_TAG; fi 
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sed -i "s|FILE_TO_DEPLOY|$FILE_TO_UPLOAD|g; s/CCACHE_VERSION/1.2.3/g" descriptor.json; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sed -i "s|FILE_TO_DEPLOY|$FILE_TO_UPLOAD|g; s/CCACHE_VERSION/$CCACHE_VERSION/g" descriptor.json; fi
   
 deploy:
   provider: bintray
