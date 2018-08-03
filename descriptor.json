@@ -4,22 +4,21 @@
         "name": "ccache", 
         "repo": "v", 
         "subject": "wotd",
-        "desc": "I was pushed completely automatically",
+        "vcs_url": "https://github.com/wotd/ccache.git",
         "licenses": ["MIT"],
+        "desc": "I was pushed completely automatically",
         "labels": ["cool", "awesome", "gorilla"]
     },
 
 
     "version": {
-        "name": "0.5",
-        "desc": "This is a version",
-        "released": "2015-01-04",
-        "gpgSign": false
+        "name": "0.5"
     },
 
     "files":
         [
         {"includePattern": "ccache", "uploadPattern": "/$1"}
+        {"includePattern": "bundle\/ccache-(.*)*\.dmg", "uploadPattern": "/macos/$1"}
         ],
     "publish": true
 }
