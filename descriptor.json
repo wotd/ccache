@@ -7,7 +7,7 @@
         "vcs_url": "https://github.com/wotd/ccache.git",
         "licenses": ["MIT"],
         "desc": "I was pushed completely automatically",
-        "labels": ["cool", "awesome", "gorilla"]
+        "labels": ["ccache", "memcached"]
     },
 
 
@@ -17,8 +17,10 @@
 
     "files":
         [
-        {"includePattern": "ccache", "uploadPattern": "/ccache"},
-        {"includePattern": "FILE_TO_DEPLOY", "uploadPattern": "/macos/ccache-CCACHE_VERSION.dmg"}
+        {"includePattern": "ccache", "uploadPattern": "/ccache", "matrixParams": {
+        "override": 1 }},
+        {"includePattern": "FILE_TO_DEPLOY", "uploadPattern": "/macos/ccache-CCACHE_VERSION.dmg", "matrixParams": {
+        "override": 1 }}
         ],
-    "publish": true
+    "publish": true,
 }
