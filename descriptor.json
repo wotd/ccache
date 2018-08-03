@@ -12,13 +12,13 @@
 
 
     "version": {
-        "name": "${TRAVIS_TAG}"
+        "name": "1.0.8"
     },
 
     "files":
         [
-        {"includePattern": "ccache", "uploadPattern": "/ccache-${TRAVIS_TAG}"},
-        {"includePattern": "bundle\/ccache-(.*)*\\.dmg", "uploadPattern": "/macos/${TRAVIS_TAG}.dmg"}
+        {"includePattern": "ccache", "uploadPattern": "/ccache"},
+        {"includePattern": "bundle\/ccache-(.*)*\\.dmg", "uploadPattern": "/macos/ccache.dmg"}
         ],
     "publish": true
 }
