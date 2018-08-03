@@ -17,8 +17,8 @@
 
     "files":
         [
-        {"includePattern": "\.\\ccache", "uploadPattern": "/ccache"},
-        {"includePattern": "bundle\\ccache-(.*)*\\.dmg", "uploadPattern": "/macos/ccache.dmg"}
+        {"includePattern": "ccache", "uploadPattern": "/ccache"},
+        {"includePattern": "bundle\\ccache-*.dmg", "uploadPattern": "/macos/ccache.dmg"}
         ],
     "publish": true
 }
